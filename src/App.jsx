@@ -14,9 +14,20 @@ class App extends React.Component {
       todos: this.props.initialData
     };
 
+    console.log("constructor");
+
     this.handleStatusChange = this.handleStatusChange.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  componentWillMount(){
+    console.log('componentWillMount');
+  }
+
+  componentDidMount(){
+    console.log('componentDidMount');
   }
 
   nextId() {
@@ -24,23 +35,23 @@ class App extends React.Component {
     return this._nextId++;
   }
 
-  handleStatusChange(id){
+  handleStatusChange(id) {
     let todos = this.state.todos.map(todo => {
-      if(todo.id === id) {
+      if (todo.id === id) {
         todo.completed = !todo.completed;
       }
       return todo;
     });
 
-    this.setState({ todos: todos});
+    this.setState({todos: todos});
   };
 
-  handleDelete(id){
+  handleDelete(id) {
     let todos = this.state.todos.filter(todo => todo.id != id);
     this.setState({todos: todos});
   }
 
-  handleAdd(title){
+  handleAdd(title) {
     let todo = {
       id: this.nextId(),
       title,
@@ -52,41 +63,54 @@ class App extends React.Component {
     this.setState({todos});
   }
 
-    render(){
-      return (
-        <main>
-          <Header title={this.props.title} todos={this.state.todos} />
+  handleEdit(id, title) {
+    let todos = this.state.todos.map(todo => {
+      if (todo.id === id) {
+        todo.title = title;
+      }
+      return todo;
+    })
 
-          <section className="todo-list">
-            {this.state.todos.map((todo) =>
-              <Todo
-                key={todo.id}
-                id={todo.id}
-                title={todo.title}
-                completed={todo.completed}
-                onStatusChange={this.handleStatusChange}
-                onDelete = {this.handleDelete}
-              />)
-            }
-          </section>
+    this.setState({todos});
+  }
 
-          <Form onAdd={this.handleAdd}/>
-        </main>
-      );
-    }
+  render() {
+    console.log('render');
+    return (
+      <main>
+        <Header title={this.props.title} todos={this.state.todos}/>
+
+        <section className="todo-list">
+          {this.state.todos.map((todo) =>
+            <Todo
+              key={todo.id}
+              id={todo.id}
+              title={todo.title}
+              completed={todo.completed}
+              onStatusChange={this.handleStatusChange}
+              onDelete={this.handleDelete}
+              onEdit={this.handleEdit}
+            />)
+          }
+        </section>
+
+        <Form onAdd={this.handleAdd}/>
+      </main>
+    );
+  }
 }
 
 App.propTypes = {
-    title: React.PropTypes.string,
-    initialData: React.PropTypes.arrayOf(React.PropTypes.shape({
-        id: React.PropTypes.number.isRequired,
-        title: React.PropTypes.string.isRequired,
-        completed: React.PropTypes.bool.isRequired
-    })).isRequired
+  title: React.PropTypes.string,
+  initialData: React.PropTypes.arrayOf(React.PropTypes.shape({
+    id: React.PropTypes.number.isRequired,
+    title: React.PropTypes.string.isRequired,
+    completed: React.PropTypes.bool.isRequired
+  })).isRequired
 };
 
 App.defaultProps = {
-    title: "React ToDo"
+  title: "React ToDo"
 };
 
-ReactDOM.render(<App initialData={todos} />, document.getElementById('root'));
+ReactDOM.render(<App initialData={todos}/>, document.getElementById('root'));

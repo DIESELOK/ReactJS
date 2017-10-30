@@ -15,8 +15,18 @@ class Todo extends React.Component {
 
   }
 
+  componentWillReceiveProps(nextProps){
+    console.log('componentWillReceiveProps');
+    console.log("next props", nextProps);
+  }
+
   handleSubmit(event){
     event.preventDefault();
+
+    let title = this.refs.title.value;
+
+    this.props.onEdit(this.props.id, title);
+      this.setState({editing: false})
   }
 
 
@@ -43,7 +53,8 @@ Todo.propTypes = {
     title: React.PropTypes.string.isRequired,
     completed: React.PropTypes.bool.isRequired,
     onStatusChange: React.PropTypes.func.isRequired,
-    onDelete: React.PropTypes.func.isRequired
+    onDelete: React.PropTypes.func.isRequired,
+    onEdit: React.PropTypes.func.isRequired
 };
 
 export default Todo;
