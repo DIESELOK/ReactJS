@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import Header from "./components/Header";
 import Todo from "./components/Todo";
-import todos from "./todos";
+import todos from "../api/todos";
 import Form from './components/Form'
 
 class App extends React.Component {
