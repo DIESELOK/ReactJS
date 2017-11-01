@@ -15,11 +15,6 @@ class Todo extends React.Component {
 
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log('componentWillReceiveProps');
-    console.log("next props", nextProps);
-  }
-
   handleSubmit(event){
     event.preventDefault();
 
@@ -38,7 +33,7 @@ class Todo extends React.Component {
       </form>
       :
       <div className={`todo${this.props.completed ? " completed" : ""}`}>
-        <Checkbox checked={this.props.completed} onChange={()=> this.props.onStatusChange(this.props.id)}/>
+        <Checkbox checked={this.props.completed} onChange={()=> this.props.onToggle(this.props.id)}/>
 
         <span className="todo-title">{this.props.title}</span>
 
@@ -52,7 +47,7 @@ class Todo extends React.Component {
 Todo.propTypes = {
     title: React.PropTypes.string.isRequired,
     completed: React.PropTypes.bool.isRequired,
-    onStatusChange: React.PropTypes.func.isRequired,
+    onToggle: React.PropTypes.func.isRequired,
     onDelete: React.PropTypes.func.isRequired,
     onEdit: React.PropTypes.func.isRequired
 };
